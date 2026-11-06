@@ -111,7 +111,14 @@ class MainActivity : Activity() {
             setTextColor(Color.DKGRAY)
             setPadding(0, 8, 0, 0)
         }
+        val logo = ImageView(this).apply {
+    setImageResource(R.drawable.logo)
+    scaleType = ImageView.ScaleType.FIT_CENTER
+}
 
+        val logoParams = LinearLayout.LayoutParams(180, 180)
+        logoParams.gravity = Gravity.CENTER
+        content.addView(logo, 0, logoParams)
         card.addView(title)
         card.addView(detail)
 
