@@ -3,41 +3,138 @@ package com.aliasantech.aliasan
 
 import android.app.Activity
 import android.os.Bundle
+import android.content.Intent
 import android.graphics.Color
+import android.graphics.Typeface
+import android.graphics.drawable.GradientDrawable
 import android.view.Gravity
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 
 class MainActivity : Activity() {
+
+    private val blue = Color.rgb(25, 65, 155)
+    private val yellow = Color.rgb(255, 195, 35)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val layout = LinearLayout(this).apply {
+        val root = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
-            gravity = Gravity.CENTER
-            setPadding(32, 32, 32, 32)
-            setBackgroundColor(Color.rgb(245, 247, 255))
+            setBackgroundColor(Color.rgb(245, 247, 252))
+        }
+
+        val scroll = ScrollView(this)
+        val content = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(20, 28, 20, 30)
         }
 
         val title = TextView(this).apply {
             text = "علی آسان"
-            textSize = 34f
-            setTextColor(Color.rgb(25, 75, 180))
+            textSize = 32f
+            setTextColor(blue)
+            typeface = Typeface.DEFAULT_BOLD
             gravity = Gravity.CENTER
         }
 
         val subtitle = TextView(this).apply {
-            text = "آموزش کامپیوتر و فناوری\nسریع و آسان"
-            textSize = 20f
+            text = "دنیای آموزش سریع و آسان"
+            textSize = 17f
             setTextColor(Color.DKGRAY)
             gravity = Gravity.CENTER
-            setPadding(0, 24, 0, 24)
+            setPadding(0, 8, 0, 24)
         }
 
-        layout.addView(title)
-        layout.addView(subtitle)
+        content.addView(title)
+        content.addView(subtitle)
 
-        setContentView(layout)
+        addCard(content, "آموزش ویندوز",
+            "ترفندها و آموزش‌های کاربردی ویندوز")
+
+        addCard(content, "آموزش کامپیوتر",
+            "مهارت‌های کاربردی دنیای کامپیوتر")
+
+        addCard(content, "فایل‌های آموزشی رایگان",
+            "دریافت ابزارها و فایل‌های آموزش")
+
+        val telegram = Button(this).apply {
+            text = "ورود به کانال تلگرام"
+            textSize = 17f
+            setTextColor(Color.WHITE)
+            setBackgroundColor(blue)
+            setOnClickListener {
+                openLink("https://t.me/AliMazidi_Official")
+            }
+        }
+
+        content.addView(telegram)
+
+        val footer = TextView(this).apply {
+            text = "علی آسان | سریع و آسان"
+            textSize = 14f
+            setTextColor(blue)
+            gravity = Gravity.CENTER
+            setPadding(0, 28, 0, 8)
+        }
+
+        content.addView(footer)
+        scroll.addView(content)
+        root.addView(scroll)
+        setContentView(root)
+    }
+
+    private fun addCard(
+        parent: LinearLayout,
+        heading: String,
+        description: String
+    ) {
+        val card = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(20, 18, 20, 18)
+            background = GradientDrawable().apply {
+                setColor(Color.WHITE)
+                cornerRadius = 24f
+                setStroke(2, yellow)
+            }
+        }
+
+        val title = TextView(this).apply {
+            text = heading
+            textSize = 20f
+            setTextColor(blue)
+            typeface = Typeface.DEFAULT_BOLD
+        }
+
+        val detail = TextView(this).apply {
+            text = description
+            textSize = 14f
+            setTextColor(Color.DKGRAY)
+            setPadding(0, 8, 0, 0)
+        }
+
+        card.addView(title)
+        card.addView(detail)
+
+        card.setOnClickListener {
+            Toast.makeText(
+                this,
+                "این بخش به زودی فعال می‌شود",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
+        val params = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+        params.setMargins(0, 8, 0, 14)
+
+        parent.addView(card, params)
+    }
+
+    private fun openLink(url: String) {
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = android.net.Uri.parse(url)
+        startActivity(intent)
     }
 }
