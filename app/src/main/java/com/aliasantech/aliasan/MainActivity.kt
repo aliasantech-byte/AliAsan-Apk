@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
-import android.graphics.drawable.GradientDrawable
 import android.view.Gravity
 import android.widget.*
 
@@ -26,8 +25,18 @@ class MainActivity : Activity() {
         val scroll = ScrollView(this)
         val content = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
+            gravity = Gravity.CENTER_HORIZONTAL
             setPadding(20, 28, 20, 30)
         }
+
+        val logo = ImageView(this).apply {
+            setImageResource(R.drawable.logo)
+            scaleType = ImageView.ScaleType.FIT_CENTER
+        }
+
+        val logoParams = LinearLayout.LayoutParams(180, 180)
+        logoParams.gravity = Gravity.CENTER
+        content.addView(logo, logoParams)
 
         val title = TextView(this).apply {
             text = "علی آسان"
@@ -59,7 +68,6 @@ class MainActivity : Activity() {
 
         val telegram = Button(this).apply {
             text = "ورود به کانال تلگرام"
-            textSize = 17f
             setTextColor(Color.WHITE)
             setBackgroundColor(blue)
             setOnClickListener {
@@ -91,11 +99,7 @@ class MainActivity : Activity() {
         val card = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             setPadding(20, 18, 20, 18)
-            background = GradientDrawable().apply {
-                setColor(Color.WHITE)
-                cornerRadius = 24f
-                setStroke(2, yellow)
-            }
+            setBackgroundColor(Color.WHITE)
         }
 
         val title = TextView(this).apply {
@@ -111,14 +115,7 @@ class MainActivity : Activity() {
             setTextColor(Color.DKGRAY)
             setPadding(0, 8, 0, 0)
         }
-        val logo = ImageView(this).apply {
-    setImageResource(R.drawable.logo)
-    scaleType = ImageView.ScaleType.FIT_CENTER
-}
 
-        val logoParams = LinearLayout.LayoutParams(180, 180)
-        logoParams.gravity = Gravity.CENTER
-        content.addView(logo, 0, logoParams)
         card.addView(title)
         card.addView(detail)
 
@@ -135,7 +132,6 @@ class MainActivity : Activity() {
             LinearLayout.LayoutParams.WRAP_CONTENT
         )
         params.setMargins(0, 8, 0, 14)
-
         parent.addView(card, params)
     }
 
